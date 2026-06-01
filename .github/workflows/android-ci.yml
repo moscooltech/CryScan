@@ -201,6 +201,12 @@ jobs:
     permissions:
       contents: write
 
+    env:
+      RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -237,30 +243,19 @@ jobs:
 
       # ── Option A: Use provided keystore secret (preferred) ──
       - name: Decode Keystore from Secret
-        if: ${{ secrets.RELEASE_KEYSTORE_BASE64 != '' }}
+        if: env.RELEASE_KEYSTORE_BASE64 != ''
         run: |
           mkdir -p keystore
-          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > keystore/release.jks
+          echo "${{ env.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > keystore/release.jks
           echo "SIGNING_MODE=secret" >> $GITHUB_ENV
         continue-on-error: true
 
       # ── Option B: Generate throwaway keystore (fallback) ──
       - name: Generate CI Keystore (fallback)
-        if: ${{ env.SIGNING_MODE != 'secret' }}
+        if: env.SIGNING_MODE != 'secret'
         run: |
           mkdir -p keystore
-          keytool -genkeypair \
-            -alias cryptoscanner-ci \
-            -keyalg RSA \
-            -keysize 4096 \
-            -validity 10000 \
-            -keystore keystore/release.jks \
-            -storepass "ci_store_pass_$(date +%s)" \
-            -keypass "ci_key_pass_$(date +%s)" \
-            -dname "CN=CryptoScanner CI, OU=CI, O=CryptoScanner, L=Unknown, S=Unknown, C=US" \
-            -storetype JKS 2>/dev/null || true
-            
-          # Use fixed passwords for CI-generated keystore
+          # Generate CI-generated keystore with fixed passwords
           keytool -genkeypair \
             -alias cryptoscanner-ci \
             -keyalg RSA \
@@ -276,13 +271,6 @@ jobs:
           echo "KEY_PASSWORD=CryptoScannerCI2024" >> $GITHUB_ENV
           echo "SIGNING_MODE=generated" >> $GITHUB_ENV
           echo "⚠️ Using CI-generated throwaway keystore. Not for Play Store distribution." >> $GITHUB_STEP_SUMMARY
-
-      - name: Set signing env from secrets
-        if: ${{ env.SIGNING_MODE == 'secret' }}
-        run: |
-          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
-          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
-          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Build Release APK (signed)
         run: |
