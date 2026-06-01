@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/scanFragment">
+
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.cryptoscanner.ui.ScanFragment"
+        android:label="@string/title_scan" />
+
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="com.cryptoscanner.ui.ResultsFragment"
+        android:label="@string/title_results" />
+
+</navigation>

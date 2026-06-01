@@ -1,0 +1,74 @@
+# Binaries
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Build outputs
+build/
+app/build/
+.gradle/
+
+# Local configuration
+local.properties
+keystore/
+*.jks
+*.keystore
+*.jks.b64
+
+# Android Studio
+.idea/
+*.iml
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# CMake build artifacts
+app/.cxx/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# NDK
+*.so
+!app/src/main/jniLibs/**/*.so
+
+# Kotlin
+*.class
+*.kotlin_module
+
+# Generated source files
+app/src/main/java/com/cryptoscanner/BuildConfig.java
+app/src/main/java/com/cryptoscanner/R.java
+
+# Test results
+app/build/reports/
+app/build/test-results/
+
+# Lint
+lint/
+.lint/
+
+# MacOS
+.DS_Store
+**/.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+
+# Third party - keep source but not build artifacts
+app/src/main/cpp/third_party/secp256k1/build/
+
+# Environment secrets
+.env
+.env.local
+secrets.properties
+
+# Crash reports
+*.hprof

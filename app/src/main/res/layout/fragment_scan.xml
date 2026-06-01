@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wallet Scanner"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_networks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="false"
+        android:layout_marginBottom="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_word_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+        <RadioButton android:id="@+id/radio_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="12" />
+        <RadioButton android:id="@+id/radio_15" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15" />
+        <RadioButton android:id="@+id/radio_18" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="18" />
+        <RadioButton android:id="@+id/radio_21" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="21" />
+        <RadioButton android:id="@+id/radio_24" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="24" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/et_passphrase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Optional Passphrase"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_mnemonic_toggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Mnemonic Input"
+        android:textColor="@color/primary"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_mnemonic_override"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp">
+        
+        <EditText
+            android:id="@+id/et_mnemonic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Custom Mnemonic"
+            android:inputType="textMultiLine"/>
+        
+        <Button
+            android:id="@+id/btn_generate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Generate Mnemonic"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_start_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Scan" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mnemonics: " />
+        <TextView android:id="@+id/tv_mnemonics_checked" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="  Addresses: " />
+        <TextView android:id="@+id/tv_addresses_checked" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="  Found: " />
+        <TextView android:id="@+id/tv_found" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textStyle="bold" android:textColor="@color/error" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_logs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

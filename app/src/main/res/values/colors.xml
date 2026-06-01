@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#FF6200EE</color>
+    <color name="secondary">#FF03DAC5</color>
+    <color name="error">#FFF44336</color>
+    <color name="warning">#FFFF9800</color>
+    <color name="btc_orange">#FFF7931A</color>
+    <color name="eth_purple">#FF627EEA</color>
+    <color name="sol_green">#FF14F195</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#FF888888</color>
+    <color name="dark_bg">#FF121212</color>
+</resources>

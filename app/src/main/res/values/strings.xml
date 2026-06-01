@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <app_name>CryptoScanner</app_name>
+    <string name="app_name">CryptoScanner</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_results">Results</string>
+    <string name="dialog_clear_title">Clear Results</string>
+    <string name="dialog_clear_message">Are you sure you want to delete all found wallets?</string>
+    <string name="dialog_clear_confirm">Clear All</string>
+    <string name="results_cleared">Results cleared.</string>
+    <string name="cancel">Cancel</string>
+    <string name="copied_to_clipboard">Address copied to clipboard.</string>
+    <string name="exported_results">Exported %d results</string>
+    <string name="mnemonic_toggle_collapse">Hide Mnemonic Input</string>
+    <string name="mnemonic_toggle_expand">Show Mnemonic Input</string>
+    <string name="mnemonic_placeholder">Mnemonic phrase goes here</string>
+    <string name="btn_stop">Stop Scan</string>
+    <string name="btn_start">Start Scan</string>
+</resources>
