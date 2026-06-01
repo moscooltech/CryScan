@@ -1,0 +1,3 @@
+[submodule "app/src/main/cpp/third_party/ed25519"]
+	path = app/src/main/cpp/third_party/ed25519
+	url = https://github.com/orlp/ed25519.git
