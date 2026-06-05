@@ -51,7 +51,10 @@ jobs:
             echo "No CMake package detected from sdkmanager; falling back to cmake;3.10.2"
             AVAILABLE_CMAKE="cmake;3.10.2"
           fi
-          echo "Installing: $AVAILABLE_CMAKE"
+          # Extract version only (e.g. 3.10.2)
+          DETECTED_CMAKE_VERSION=${AVAILABLE_CMAKE#cmake;}
+          echo "CMAKE_VERSION=$DETECTED_CMAKE_VERSION" >> $GITHUB_ENV
+          echo "Installing: $AVAILABLE_CMAKE (exported CMAKE_VERSION=$DETECTED_CMAKE_VERSION)"
 
           # Install NDK, the detected CMake, and other required components
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
@@ -183,7 +186,10 @@ jobs:
             echo "No CMake package detected from sdkmanager; falling back to cmake;3.10.2"
             AVAILABLE_CMAKE="cmake;3.10.2"
           fi
-          echo "Installing: $AVAILABLE_CMAKE"
+          # Extract version only (e.g. 3.10.2)
+          DETECTED_CMAKE_VERSION=${AVAILABLE_CMAKE#cmake;}
+          echo "CMAKE_VERSION=$DETECTED_CMAKE_VERSION" >> $GITHUB_ENV
+          echo "Installing: $AVAILABLE_CMAKE (exported CMAKE_VERSION=$DETECTED_CMAKE_VERSION)"
 
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
             "ndk;${{ env.NDK_VERSION }}" \
@@ -258,7 +264,10 @@ jobs:
             echo "No CMake package detected from sdkmanager; falling back to cmake;3.10.2"
             AVAILABLE_CMAKE="cmake;3.10.2"
           fi
-          echo "Installing: $AVAILABLE_CMAKE"
+          # Extract version only (e.g. 3.10.2)
+          DETECTED_CMAKE_VERSION=${AVAILABLE_CMAKE#cmake;}
+          echo "CMAKE_VERSION=$DETECTED_CMAKE_VERSION" >> $GITHUB_ENV
+          echo "Installing: $AVAILABLE_CMAKE (exported CMAKE_VERSION=$DETECTED_CMAKE_VERSION)"
 
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
             "ndk;${{ env.NDK_VERSION }}" \
