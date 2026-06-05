@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <app_name>CryptoScanner</app_name>
     <string name="app_name">CryptoScanner</string>
     <string name="title_scan">Scan</string>
     <string name="title_results">Results</string>
