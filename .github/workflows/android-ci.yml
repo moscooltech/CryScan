@@ -121,6 +121,19 @@ jobs:
             sleep 10
           done
 
+      - name: Create Debug Keystore
+        run: |
+          mkdir -p ~/.android
+          keytool -genkeypair \
+            -alias androiddebugkey \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -keystore ~/.android/debug.keystore \
+            -storepass android \
+            -keypass android \
+            -dname "CN=Android Debug, OU=Android, O=Android, L=Mountain View, S=California, C=US"
+
       - name: Run Android Lint
         run: ./gradlew lint --continue
         continue-on-error: true
@@ -249,6 +262,19 @@ jobs:
           key: ndk-${{ matrix.abi }}-${{ hashFiles('app/src/main/cpp/**') }}
 
       - run: chmod +x ./gradlew
+
+      - name: Create Debug Keystore
+        run: |
+          mkdir -p ~/.android
+          keytool -genkeypair \
+            -alias androiddebugkey \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -keystore ~/.android/debug.keystore \
+            -storepass android \
+            -keypass android \
+            -dname "CN=Android Debug, OU=Android, O=Android, L=Mountain View, S=California, C=US"
 
       - name: Build for ${{ matrix.abi }}
         run: |
