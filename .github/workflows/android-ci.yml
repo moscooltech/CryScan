@@ -39,12 +39,13 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          ndk-version: ${{ env.NDK_VERSION }}
+          cmake-version: ${{ env.CMAKE_VERSION }}
 
-      - name: Install NDK and CMake
+      - name: Install Android SDK components
         run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
-            "ndk;${{ env.NDK_VERSION }}" \
-            "cmake;${{ env.CMAKE_VERSION }}" \
             "platform-tools" \
             "platforms;android-35" \
             "build-tools;34.0.0"
@@ -160,11 +161,12 @@ jobs:
 
       - name: Setup Android SDK & NDK
         uses: android-actions/setup-android@v3
+        with:
+          ndk-version: ${{ env.NDK_VERSION }}
+          cmake-version: ${{ env.CMAKE_VERSION }}
 
       - run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
-            "ndk;${{ env.NDK_VERSION }}" \
-            "cmake;${{ env.CMAKE_VERSION }}" \
             "platforms;android-35" \
             "build-tools;34.0.0"
 
@@ -224,11 +226,12 @@ jobs:
 
       - name: Setup Android SDK & NDK
         uses: android-actions/setup-android@v3
+        with:
+          ndk-version: ${{ env.NDK_VERSION }}
+          cmake-version: ${{ env.CMAKE_VERSION }}
 
       - run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
-            "ndk;${{ env.NDK_VERSION }}" \
-            "cmake;${{ env.CMAKE_VERSION }}" \
             "platforms;android-35" \
             "build-tools;34.0.0"
 
