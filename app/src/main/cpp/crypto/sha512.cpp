@@ -119,8 +119,11 @@ std::array<uint8_t, 64> sha512(const uint8_t* data, size_t len) {
     block[remainder] = 0x80;
 
     // Length in bits (only lower 64 bits used for any realistic input)
+    // For SHA-512, the message length field is 128 bits, but we only use 64 bits
+    // because realistic inputs will never exceed 2^61 bytes (2 exabytes).
+    // The upper 64 bits (bitlen_hi) are always zero for practical inputs.
     uint64_t bitlen_lo = (uint64_t)len * 8;
-    uint64_t bitlen_hi = (uint64_t)((unsigned __int128)len >> 61); // upper bits
+    uint64_t bitlen_hi = 0;  // Always zero for realistic message sizes
 
     if (remainder < 112) {
         // Length fits in first padding block (128 - 16 = 112)
