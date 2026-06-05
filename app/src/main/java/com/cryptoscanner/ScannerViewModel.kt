@@ -79,13 +79,13 @@ class ScannerViewModel(private val repository: WalletRepository) : ViewModel() {
         totalFound = 0
         _scanState.value = ScanState.Running()
 
-        appendLog(LogEntry("Scan started – networks: ${config.networks.map { it.ticker }}", LogLevel.INFO))
+        appendLog(LogEntry(message = "Scan started – networks: ${config.networks.map { it.ticker }}", level = LogLevel.INFO))
 
         scanJob = viewModelScope.launch {
             try {
                 if (config.existingMnemonic != null) {
                     // Single mnemonic mode
-                    appendLog(LogEntry("Using provided mnemonic…", LogLevel.INFO))
+                    appendLog(LogEntry(message = "Using provided mnemonic…", level = LogLevel.INFO))
                     val found = repository.scanMnemonic(
                         mnemonic = config.existingMnemonic,
                         config = config,
@@ -95,7 +95,7 @@ class ScannerViewModel(private val repository: WalletRepository) : ViewModel() {
                     addressesChecked += config.networks.size * config.addressesPerMnemonic
                     totalFound += found.size
                     updateRunningState()
-                    appendLog(LogEntry("Single mnemonic scan complete.", LogLevel.INFO))
+                    appendLog(LogEntry(message = "Single mnemonic scan complete.", level = LogLevel.INFO))
                     _scanState.value = ScanState.Stopped
                 } else {
                     // Continuous loop
@@ -109,10 +109,10 @@ class ScannerViewModel(private val repository: WalletRepository) : ViewModel() {
                 }
             } catch (e: kotlinx.coroutines.CancellationException) {
                 // Expected when stopScan() is called
-                appendLog(LogEntry("Scan stopped by user.", LogLevel.INFO))
+                appendLog(LogEntry(message = "Scan stopped by user.", level = LogLevel.INFO))
                 _scanState.value = ScanState.Stopped
             } catch (e: Exception) {
-                appendLog(LogEntry("Fatal error: ${e.message}", LogLevel.ERROR))
+                appendLog(LogEntry(message = "Fatal error: ${e.message}", level = LogLevel.ERROR))
                 _scanState.value = ScanState.Error(e.message ?: "Unknown error")
             }
         }
@@ -138,7 +138,7 @@ class ScannerViewModel(private val repository: WalletRepository) : ViewModel() {
     fun clearResults() {
         viewModelScope.launch {
             repository.clearAllResults()
-            appendLog(LogEntry("All results cleared.", LogLevel.WARNING))
+            appendLog(LogEntry(message = "All results cleared.", level = LogLevel.WARNING))
         }
     }
 
