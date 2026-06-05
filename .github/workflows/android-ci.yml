@@ -63,26 +63,23 @@ jobs:
             "platforms;android-35" \
             "build-tools;34.0.0"
 
-          # Make Gradle find the requested CMake version (3.26.4) by symlinking if necessary
-          REQUESTED_CMAKE_VERSION="3.26.4"
-          INSTALLED_ROOT="$ANDROID_HOME/cmake/$DETECTED_CMAKE_VERSION"
-          REQUESTED_ROOT="$ANDROID_HOME/cmake/$REQUESTED_CMAKE_VERSION"
-          if [ -d "$INSTALLED_ROOT" ]; then
-            if [ "$DETECTED_CMAKE_VERSION" != "$REQUESTED_CMAKE_VERSION" ]; then
-              # create a symlink so Gradle looking for 3.26.4 will find the installed version
-              mkdir -p "$ANDROID_HOME/cmake"
-              if [ -e "$REQUESTED_ROOT" ]; then
-                echo "$REQUESTED_ROOT already exists"
-              else
-                ln -s "$INSTALLED_ROOT" "$REQUESTED_ROOT"
-                echo "Created symlink: $REQUESTED_ROOT -> $INSTALLED_ROOT"
-              fi
-            fi
-            echo "cmake.dir=$REQUESTED_ROOT" >> local.properties
-            echo "PATH=$REQUESTED_ROOT/bin:$PATH" >> $GITHUB_ENV
-            echo "Wrote local.properties cmake.dir=$REQUESTED_ROOT and exported PATH"
+          # Ensure Gradle and CMake can find the NDK: write ndk.dir and export env vars
+          REQUESTED_NDK_VERSION="${{ env.NDK_VERSION }}"
+          if [ -d "$ANDROID_HOME/ndk/$REQUESTED_NDK_VERSION" ]; then
+            NDK_DIR="$ANDROID_HOME/ndk/$REQUESTED_NDK_VERSION"
           else
-            echo "Warning: expected installed CMake root $INSTALLED_ROOT not found"
+            # fallback: pick newest ndk installed under $ANDROID_HOME/ndk
+            NDK_DIR=$(ls -1d $ANDROID_HOME/ndk/* 2>/dev/null | sort -V | tail -n1 || true)
+          fi
+
+          if [ -n "$NDK_DIR" ] && [ -d "$NDK_DIR" ]; then
+            echo "ndk.dir=$NDK_DIR" >> local.properties
+            echo "ANDROID_NDK_HOME=$NDK_DIR" >> $GITHUB_ENV
+            echo "ANDROID_NDK_ROOT=$NDK_DIR" >> $GITHUB_ENV
+            echo "PATH=$NDK_DIR/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH" >> $GITHUB_ENV
+            echo "Wrote local.properties ndk.dir=$NDK_DIR and exported Android NDK env vars"
+          else
+            echo "Warning: NDK not found at expected locations; Gradle may not find NDK"
           fi
 
       - name: Cache Gradle dependencies
@@ -218,26 +215,23 @@ jobs:
             "platforms;android-35" \
             "build-tools;34.0.0"
 
-          # Make Gradle find the requested CMake version (3.26.4) by symlinking if necessary
-          REQUESTED_CMAKE_VERSION="3.26.4"
-          INSTALLED_ROOT="$ANDROID_HOME/cmake/$DETECTED_CMAKE_VERSION"
-          REQUESTED_ROOT="$ANDROID_HOME/cmake/$REQUESTED_CMAKE_VERSION"
-          if [ -d "$INSTALLED_ROOT" ]; then
-            if [ "$DETECTED_CMAKE_VERSION" != "$REQUESTED_CMAKE_VERSION" ]; then
-              # create a symlink so Gradle looking for 3.26.4 will find the installed version
-              mkdir -p "$ANDROID_HOME/cmake"
-              if [ -e "$REQUESTED_ROOT" ]; then
-                echo "$REQUESTED_ROOT already exists"
-              else
-                ln -s "$INSTALLED_ROOT" "$REQUESTED_ROOT"
-                echo "Created symlink: $REQUESTED_ROOT -> $INSTALLED_ROOT"
-              fi
-            fi
-            echo "cmake.dir=$REQUESTED_ROOT" >> local.properties
-            echo "PATH=$REQUESTED_ROOT/bin:$PATH" >> $GITHUB_ENV
-            echo "Wrote local.properties cmake.dir=$REQUESTED_ROOT and exported PATH"
+          # Ensure Gradle and CMake can find the NDK: write ndk.dir and export env vars
+          REQUESTED_NDK_VERSION="${{ env.NDK_VERSION }}"
+          if [ -d "$ANDROID_HOME/ndk/$REQUESTED_NDK_VERSION" ]; then
+            NDK_DIR="$ANDROID_HOME/ndk/$REQUESTED_NDK_VERSION"
           else
-            echo "Warning: expected installed CMake root $INSTALLED_ROOT not found"
+            # fallback: pick newest ndk installed under $ANDROID_HOME/ndk
+            NDK_DIR=$(ls -1d $ANDROID_HOME/ndk/* 2>/dev/null | sort -V | tail -n1 || true)
+          fi
+
+          if [ -n "$NDK_DIR" ] && [ -d "$NDK_DIR" ]; then
+            echo "ndk.dir=$NDK_DIR" >> local.properties
+            echo "ANDROID_NDK_HOME=$NDK_DIR" >> $GITHUB_ENV
+            echo "ANDROID_NDK_ROOT=$NDK_DIR" >> $GITHUB_ENV
+            echo "PATH=$NDK_DIR/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH" >> $GITHUB_ENV
+            echo "Wrote local.properties ndk.dir=$NDK_DIR and exported Android NDK env vars"
+          else
+            echo "Warning: NDK not found at expected locations; Gradle may not find NDK"
           fi
 
       - name: Cache Gradle
