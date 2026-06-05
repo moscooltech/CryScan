@@ -12,7 +12,6 @@ on:
 env:
   JAVA_VERSION: '17'
   NDK_VERSION: '26.3.11579264'
-  CMAKE_VERSION: '3.26.4'
   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
 
 jobs:
