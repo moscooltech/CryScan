@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
-project(cryptoscanner VERSION 1.0.0 LANGUAGES CXX)
+project(cryptoscanner VERSION 1.0.0 LANGUAGES C CXX)
+
+# Ensure the C compiler is enabled for Android NDK cross-compiles (prevents missing
+# internal variables like CMAKE_C_COMPILE_OBJECT when C support was omitted)
+enable_language(C)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
