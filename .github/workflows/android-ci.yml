@@ -42,9 +42,21 @@ jobs:
 
       - name: Install NDK and CMake
         run: |
-          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+          # Update cmdline-tools to avoid SDK XML version mismatches
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "cmdline-tools;latest"
+
+          # Detect an available CMake package from the SDK list (pick newest available)
+          AVAILABLE_CMAKE=$($ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list 2>/dev/null | grep -Eo 'cmake;[0-9]+\.[0-9]+(\.[0-9]+)?' | sort -V | tail -n1)
+          if [ -z "$AVAILABLE_CMAKE" ]; then
+            echo "No CMake package detected from sdkmanager; falling back to cmake;3.10.2"
+            AVAILABLE_CMAKE="cmake;3.10.2"
+          fi
+          echo "Installing: $AVAILABLE_CMAKE"
+
+          # Install NDK, the detected CMake, and other required components
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
             "ndk;${{ env.NDK_VERSION }}" \
-            "cmake;${{ env.CMAKE_VERSION }}" \
+            "$AVAILABLE_CMAKE" \
             "platform-tools" \
             "platforms;android-35" \
             "build-tools;34.0.0"
@@ -162,9 +174,20 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - run: |
-          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+          # Update cmdline-tools to avoid SDK XML version mismatches
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "cmdline-tools;latest"
+
+          # Detect an available CMake package from the SDK list (pick newest available)
+          AVAILABLE_CMAKE=$($ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list 2>/dev/null | grep -Eo 'cmake;[0-9]+\.[0-9]+(\.[0-9]+)?' | sort -V | tail -n1)
+          if [ -z "$AVAILABLE_CMAKE" ]; then
+            echo "No CMake package detected from sdkmanager; falling back to cmake;3.10.2"
+            AVAILABLE_CMAKE="cmake;3.10.2"
+          fi
+          echo "Installing: $AVAILABLE_CMAKE"
+
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
             "ndk;${{ env.NDK_VERSION }}" \
-            "cmake;${{ env.CMAKE_VERSION }}" \
+            "$AVAILABLE_CMAKE" \
             "platforms;android-35" \
             "build-tools;34.0.0"
 
@@ -226,9 +249,20 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - run: |
-          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+          # Update cmdline-tools to avoid SDK XML version mismatches
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "cmdline-tools;latest"
+
+          # Detect an available CMake package from the SDK list (pick newest available)
+          AVAILABLE_CMAKE=$($ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list 2>/dev/null | grep -Eo 'cmake;[0-9]+\.[0-9]+(\.[0-9]+)?' | sort -V | tail -n1)
+          if [ -z "$AVAILABLE_CMAKE" ]; then
+            echo "No CMake package detected from sdkmanager; falling back to cmake;3.10.2"
+            AVAILABLE_CMAKE="cmake;3.10.2"
+          fi
+          echo "Installing: $AVAILABLE_CMAKE"
+
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
             "ndk;${{ env.NDK_VERSION }}" \
-            "cmake;${{ env.CMAKE_VERSION }}" \
+            "$AVAILABLE_CMAKE" \
             "platforms;android-35" \
             "build-tools;34.0.0"
 
