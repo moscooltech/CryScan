@@ -10,6 +10,9 @@ android {
     namespace = "com.cryptoscanner"
     compileSdk = 35
 
+    // Can be overridden via -PndkVersion in CI or gradle.properties
+    ndkVersion = (project.findProperty("ndkVersion") as String? ?: System.getenv("NDK_VERSION") ?: "26.3.11579264")
+
     defaultConfig {
         applicationId = "com.cryptoscanner"
         minSdk = 26
@@ -43,7 +46,9 @@ android {
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.26.4"
+            // Use explicit project property or environment-provided CMAKE_VERSION (exported by CI workflow).
+            // Fallback to a more recent CMake if neither is set.
+            version = (project.findProperty("cmakeVersion") as String? ?: System.getenv("CMAKE_VERSION") ?: "3.28.0")
         }
     }
 

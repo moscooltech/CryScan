@@ -137,10 +137,12 @@ jobs:
         run: |
           ./gradlew assembleDebug \
             -PBLOCKCYPHER_TOKEN="" \
-            -PINFURA_PROJECT_ID=""
+            -PINFURA_PROJECT_ID="" \
+            -PndkVersion="$NDK_VERSION" \
+            -PcmakeVersion="$CMAKE_VERSION"
 
       - name: Run JVM Unit Tests
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew testDebugUnitTest -PndkVersion="$NDK_VERSION" -PcmakeVersion="$CMAKE_VERSION"
 
       - name: Upload Unit Test Results
         if: always()
@@ -252,6 +254,8 @@ jobs:
         run: |
           ./gradlew assembleDebug \
             -PabiFilter="${{ matrix.abi }}" \
+            -PndkVersion="$NDK_VERSION" \
+            -PcmakeVersion="$CMAKE_VERSION" \
             --stacktrace
 
       - name: Verify .so file exists
@@ -384,6 +388,8 @@ jobs:
             -PRELEASE_KEYSTORE_PASSWORD="${{ env.KEYSTORE_PASSWORD }}" \
             -PRELEASE_KEY_ALIAS="${{ env.KEY_ALIAS }}" \
             -PRELEASE_KEY_PASSWORD="${{ env.KEY_PASSWORD }}" \
+            -PndkVersion="$NDK_VERSION" \
+            -PcmakeVersion="$CMAKE_VERSION" \
             --stacktrace
 
       - name: Get release version
@@ -456,5 +462,5 @@ jobs:
       - run: chmod +x ./gradlew
 
       - name: Run Dependency Updates Check
-        run: ./gradlew dependencyUpdates --refresh-dependencies || true
+        run: ./gradlew dependencyUpdates --refresh-dependencies -PndkVersion="$NDK_VERSION" -PcmakeVersion="$CMAKE_VERSION" || true
         continue-on-error: true
